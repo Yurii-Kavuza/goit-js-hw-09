@@ -1,5 +1,3 @@
-import throttle from 'lodash.throttle';
-
 const refs = {
   body: document.querySelector('body'),
   start: document.querySelector('[data-start]'),
@@ -20,9 +18,9 @@ refs.stop.disabled = true;
 function onStart(evt) {
   timerId = setInterval(() => {
     refs.body.style.backgroundColor = getRandomHexColor();
-    evt.target.disabled = true;
-    refs.stop.disabled = false;
   }, 1000);
+  evt.target.disabled = true;
+  refs.stop.disabled = false;
 }
 
 function onStop(evt) {
