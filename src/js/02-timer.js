@@ -20,34 +20,47 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    if (selectedDates[0] <= Date.now()) {
-      Notiflix.Notify.failure('Please choose a date in the future');
-      refs.start.disabled = true;
-      return;
-    }
-    refs.start.disabled = false;
-    chosenTime = selectedDates[0];
-    refs.start.addEventListener('click', onStart);
-  },
+  onClose,
 };
 
 const fp = flatpickr('#datetime-picker', options);
 
 refs.start.disabled = true;
 
+function onClose(selectedDates) {
+  if (selectedDates[0] <= Date.now()) {
+    Notiflix.Notify.failure('Please choose a date in the future');
+    refs.start.disabled = true;
+    return;
+  }
+  refs.start.disabled = false;
+  chosenTime = selectedDates[0];
+  refs.start.addEventListener('click', onStart);
+}
+
 function onStart() {
   timerId = setInterval(() => {
     timeDelta = chosenTime - Date.now();
     const leftTime = convertMs(timeDelta);
     renderTime(leftTime);
-    refs.start.disabled = true;
+    disableDataPickerAndButton();
 
     if (timeDelta <= 0) {
       clearInterval(timerId);
       renderTime(convertMs(0));
+      enableDataPickerAndButton();
     }
   }, 1000);
+}
+
+function enableDataPickerAndButton() {
+  refs.start.disabled = false;
+  refs.dataPicker.disabled = false;
+}
+
+function disableDataPickerAndButton() {
+  refs.start.disabled = true;
+  refs.dataPicker.disabled = true;
 }
 
 function renderTime(leftTime) {
