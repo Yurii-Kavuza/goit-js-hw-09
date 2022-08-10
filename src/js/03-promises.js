@@ -12,15 +12,16 @@ refs.btn.addEventListener('click', onSubmit);
 
 function onSubmit(e) {
   e.preventDefault();
-  const firstDelay = refs.firstDelay.value;
-  const step = refs.step.value;
-  const amount = refs.amount.value;
+  const firstDelay = Number(refs.firstDelay.value);
+  const step = Number(refs.step.value);
+  const amount = Number(refs.amount.value);
   let delay = 0;
 
   for (let i = 1; i <= amount; i++) {
     const position = i;
+    console.log(`i = ${i}`);
 
-    if ((i = 1)) {
+    if (i === 1) {
       delay += firstDelay;
     } else {
       delay += step;
